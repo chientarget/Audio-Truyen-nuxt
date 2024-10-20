@@ -1,10 +1,7 @@
 <template>
-  <div class="font-Montserrat text-dire-wolf">
-<!--    <BaseNavigation />-->
-<!--    <NuxtPage />-->
-    <login />
+  <div class="font-Montserrat text-dire-wolf bg-[#1a1625]">
+    <NuxtPage />
   </div>
 </template>
 <script setup lang="ts">
-import Login from "~/components/login.vue";
 </script>
