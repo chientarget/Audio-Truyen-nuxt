@@ -112,6 +112,14 @@
 
 <script setup>
 const isOpen = ref(false);
+const router = useRouter();
+
+// Check if the user is logged in when the component is mounted
+onMounted(() => {
+  if (!isLoggedIn()) {
+    router.push('/login');
+  }
+});
 
 // Dữ liệu truyện đề cử
 const truyenDeCu = ref([

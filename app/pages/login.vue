@@ -12,7 +12,7 @@
         </FormItem>
 
         <FormItem label="Mật khẩu" name="password" :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]" class="mb-4">
-          <Input v-model:value="formState.password" size="large" class="bg-[#2f2b42] border-[#3c3651] text-white placeholder-gray-400" placeholder="Nhập mật khẩu"/>
+          <Input v-model:value="formState.password" type="password" size="large" class="bg-[#2f2b42] border-[#3c3651] text-white placeholder-gray-400" placeholder="Nhập mật khẩu"/>
         </FormItem>
 
         <div class="flex justify-between mb-6">
@@ -39,7 +39,10 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { Form, FormItem, Input, Checkbox, Button } from 'ant-design-vue';
+import { login } from '@@/services/api/auth';
+
 
 interface FormState {
   username: string;
@@ -53,11 +56,30 @@ const formState = reactive<FormState>({
   remember: true,
 });
 
-const onFinish = (values: any) => {
-  console.log('Success:', values);
+const router = useRouter();
+
+const onFinish = async (values: any) => {
+  try {
+    const response = await login(formState.username, formState.password);
+    console.log('Login successful:', response);
+
+    localStorage.setItem('accessToken', response.accessToken);
+    localStorage.setItem('token', response.token);
+
+    // Redirect to dashboard or desired page after login
+    await router.push('/');
+  } catch (error) {
+    console.error('Login failed:', error);
+  }
 };
 
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo);
 };
 </script>
+
+<style scoped>
+.container {
+  max-width: 400px;
+}
+</style>
